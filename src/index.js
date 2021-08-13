@@ -2,6 +2,7 @@ const { version } = require('../package.json')
 const { program, Option } = require('commander')
 const { execAsync } = require('./execAsync')
 const { Address } = require('@signumjs/core')
+const { grab } = require('./grab')
 
 function validateUrl (url) {
   if (url) {
@@ -35,14 +36,16 @@ const app = program
          @@@@@    @@@@@    @@@@@        
             @@@@@@@  @@@@@@@@    
  
-        Signum Pir8 Grabber          
+           Signum Pir8 Grabber          
       
   Author: ohager
   Version: ${version}
   `)
-  .requiredOption('-s, --secret <yoursecret>', 'Your senders Signum account passphrase')
+  // .requiredOption('-p, --phrase <yoursecret>', 'Your senders Signum account passphrase')
   .option('-a, --address <address>', 'Address to be monitored, can be Reed-Solomon or Id ', validateAddress)
-  .option('-f, --file <filename>', 'Logfile to', validateUrl, './pir8-grabber.log')
+  .option('-s, --signa <filename>', 'Target amount in SIGNA')
+  .option('-m, --message <filename>', 'Target message')
+  .option('-f, --file <filename>', 'Filename where the data is being collected', './pir8grabber.log')
   .option('-l, --lines', 'Amount of lines inside the file', '10')
   .addOption(
     new Option('-f --fee <type>', 'Sets fee type by category for send')
@@ -56,8 +59,8 @@ const app = program
   let opts = {}
   try {
     opts = app.parse().opts()
-    // const { commitmentAmount, address } = await commit(opts)
-    // console.info('✅ Yay, all fine!')
+    const result = await grab(opts)
+    console.info('✅ Yay, all fine!')
     if (opts.onsuccess) {
       await execAsync(opts.onsuccess, [])
     }

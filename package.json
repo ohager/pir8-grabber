@@ -8,7 +8,7 @@
     "url": "https://github.com/ohager/pir8-grabber",
     "type": "github"
   },
-  "description": "Commits part or all balance for mining Signum",
+  "description": "The very special grabber for true pir8s",
   "bin": {
     "pir8grabber": "./cli.js"
   },
