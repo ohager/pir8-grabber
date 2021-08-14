@@ -118,5 +118,8 @@ dist
 
 .husky/
 img/
-example-output
+example-output.json
+.idea
+.nvmrc
+
 
