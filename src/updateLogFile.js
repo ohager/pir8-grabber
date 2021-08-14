@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
 const { Amount } = require('@signumjs/util')
 const { extractMessage } = require('./extractMessage')
+const { generateMasterKeys } = require('@signumjs/crypto')
 
 function updateLogFile (opts, transactions) {
   fs.ensureFileSync(opts.file)
@@ -10,12 +11,16 @@ function updateLogFile (opts, transactions) {
   } catch (e) {
     // no op -- for an empty file!
   }
-
+  let decryptKey = null
+  if (opts.phrase) {
+    const { agreementPrivateKey } = generateMasterKeys(opts.phrase)
+    decryptKey = agreementPrivateKey
+  }
   const mappedTransactions = transactions.map(t => ({
     id: t.transaction,
     sender: t.sender,
     amount: Amount.fromPlanck(t.amountNQT).getSigna(),
-    message: extractMessage(t, opts.passphrase)
+    message: extractMessage(t, decryptKey)
   }))
 
   const { lines, address, signa, message } = opts
