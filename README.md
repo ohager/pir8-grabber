@@ -1,6 +1,10 @@
 # signum-pir8-grabber
 
-<img src="./img/signum_logo" height="64" />
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+![node-current](https://img.shields.io/node/v/signum-pir8-grabber)
+![npm](https://img.shields.io/npm/v/signum-pir8-grabber)
+
+<img src="./img/signum_logo.svg" height="64" />
 
 A small tool that grabs Signum transactions from a specific account by certain criteria and logs it into a file.
 
@@ -15,7 +19,7 @@ npm i signum-pir8-grabber -g
 pir8grabber -h
 ```
 
-```bash
+```
 Usage: pir8grabber [options]
 
 Options:
@@ -34,23 +38,17 @@ Usage Examples:
 
 ----
 
-Log last at maximum ten transactions sent to account `S-9K9L-4CB5-88Y5-F5G4Z` that contains the string "NDS-A" in their message 
+Log last at maximum ten transactions sent to account `S-9K9L-4CB5-88Y5-F5G4Z` that contains the string "NDS" in their message 
 
-`pir8grabber -a S-9K9L-4CB5-88Y5-F5G4Z -m "NDS.*"`
+`pir8grabber -a S-9K9L-4CB5-88Y5-F5G4Z -m "NDS"`
 
 ----
-Log last ar maximum twenty transactions sent to account `S-9K9L-4CB5-88Y5-F5G4Z` that has more than 50 SIGNA into `./acme.json` 
+Log last at maximum twenty transactions sent to account `S-9K9L-4CB5-88Y5-F5G4Z` that has more than 50 SIGNA into `./acme.json` 
 
-`pir8grabber -a S-9K9L-4CB5-88Y5-F5G4Z -a 50 -l 25 -f ./acme.json`
+`pir8grabber -a S-9K9L-4CB5-88Y5-F5G4Z -a 50 -l 20 -f ./acme.json`
 
+----
+Log last at maximum ten transactions sent to account `S-9K9L-4CB5-88Y5-F5G4Z` that has messages starting with "foo"  and considering also encrypted messages`
 
-# Development
+`pir8grabber -a S-9K9L-4CB5-88Y5-F5G4Z -m "^foo" -p "my super secret passphrase"`
 
-```bash
-# If you are on MacOS or Linux you can use nvm to choose the correct NodeJS version
-nvm use 
-npm i
-npm start -- -a S-9K9L-4CB5-88Y5-F5G4Z -m "NDS-A"
-```
-
-Build:
