@@ -23,12 +23,11 @@ Options:
   -a, --address <address>    Address to be monitored, can be Reed-Solomon or Id
   -p, --phrase <yoursecret>  Your senders Signum account passphrase (to read encrypted messages) (default: "")
   -s, --signa <amount>       Target amount in SIGNA
-  -m, --message <regex>      Target message
+  -m, --message <regex>      Target message using a regex pattern
   -f, --file <filename>      Filename where the data is being collected (default: "./pir8grabber.json")
   -l, --lines <number>       Amount of lines inside the file (default: 10)
   -n, --node <url>           Your custom node. Otherwise the node is selected automatically
   -h, --help                 display help for command
-
 ```
 
 Usage Examples:

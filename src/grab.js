@@ -39,7 +39,7 @@ function filterTransactions (transactions, opts) {
 
 async function grab (opts) {
   const { address } = opts
-  api = await createApi()
+  api = await createApi(opts.node)
   const transactions = await fetchTransactions(address)
   return filterTransactions(transactions, opts)
 }

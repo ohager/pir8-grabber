@@ -1,6 +1,5 @@
 const { version } = require('../package.json')
 const { program } = require('commander')
-const { execAsync } = require('./execAsync')
 const { Address } = require('@signumjs/core')
 const { grab } = require('./grab')
 const { Amount } = require('@signumjs/util')
