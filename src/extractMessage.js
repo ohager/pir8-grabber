@@ -1,6 +1,6 @@
 const { decryptMessage, generateMasterKeys } = require('@signumjs/crypto')
 
-function extractMessage (transaction, passphrase = '') {
+function extractMessage (transaction, agreementPrivateKey) {
   const { attachment } = transaction
   if (!attachment) return ''
 
@@ -8,8 +8,7 @@ function extractMessage (transaction, passphrase = '') {
     return attachment.message
   }
 
-  if (passphrase && attachment.nonce && attachment.isText) {
-    const { agreementPrivateKey } = generateMasterKeys(passphrase)
+  if (agreementPrivateKey && attachment.nonce && attachment.isText) {
     return decryptMessage(attachment, transaction.senderPublicKey, agreementPrivateKey)
   }
 

@@ -2,6 +2,7 @@ const { Address, TransactionType, TransactionPaymentSubtype } = require('@signum
 const { Amount } = require('@signumjs/util')
 const { createApi } = require('./api')
 const { extractMessage } = require('./extractMessage')
+const { generateMasterKeys } = require('@signumjs/crypto')
 
 let api = null
 
@@ -18,10 +19,16 @@ async function fetchTransactions (address) {
 }
 
 function filterTransactions (transactions, opts) {
+  const regex = new RegExp(opts.message, 'gi')
+  let decryptKey = null
+  if (opts.phrase) {
+    const { agreementPrivateKey } = generateMasterKeys(opts.phrase)
+    decryptKey = agreementPrivateKey
+  }
   return transactions.filter(tx => {
     let accept = true
     if (opts.message) {
-      accept &= extractMessage(tx).indexOf(opts.message) !== -1
+      accept &= regex.test(extractMessage(tx, decryptKey))
     }
     if (opts.signa) {
       accept &= Amount.fromPlanck(tx.amountNQT).greaterOrEqual(Amount.fromSigna(opts.signa))
