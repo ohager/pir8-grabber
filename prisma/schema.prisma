@@ -49,5 +49,6 @@ model Payment {
     updated         DateTime @updatedAt
     receiver        String
     amount          Int             // SIGNA
+    message         String?
     status          PaymentStatus @default(Pending)
 }
