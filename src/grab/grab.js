@@ -1,6 +1,6 @@
 const { Address, TransactionType, TransactionPaymentSubtype } = require('@signumjs/core')
 const { Amount } = require('@signumjs/util')
-const { createApi } = require('./api')
+const { createApi } = require('../api')
 const { extractMessage } = require('./extractMessage')
 const { generateMasterKeys } = require('@signumjs/crypto')
 

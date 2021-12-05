@@ -1,0 +1,30 @@
+------Pir8Grabber---------
+1) user pays account XX signa enters an encrypted message (game password).
+2) account is monitored sees payment came in and is >= XX signa
+3) loggs info to file.
+-------so far pir8grabber already does the above-------------
+NEED TO ADD:  on step 3 above i need to also write a field called  "Status" and a default value of "Wait"
+
+
+
+
+------MY Web App----------
+1) monitors above file, and lists accounts in "waiting room" on web interface.
+2) user selects his account from waiting room, enters Game Password that he entered when he paid.
+3) Play mode starts, change this users "Status" value to "P"
+3) game allows him to do things within a set time (30 seconds).
+4) if game won, "Status" changes to "W"
+5) if game lost, "Status" changes to "L"
+
+-------Pir8Payout app---------   Maybe this can be included in Pir8Grabber?
+1) runs every x mins, same time as pir8grabber?
+2) reads json/mariaDB
+3) anything with a "W" send payment of random signa between xx-xxx signa (setting), change "Status" to "Paid"
+
+
+STATUS Info
+
+Wait - paid but not played yet.
+W - Won the game, gets a random payout
+L - Lost the game, no more action needed.
+Paid - Script paid out from monitored account a random amount from XX-XXX (based on app setting)

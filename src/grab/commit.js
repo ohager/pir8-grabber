@@ -1,4 +1,4 @@
-const { createApi } = require('./api')
+const { createApi } = require('../api')
 const { Address } = require('@signumjs/core')
 const { Amount } = require('@signumjs/util')
 const { generateMasterKeys } = require('@signumjs/crypto')

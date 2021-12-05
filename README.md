@@ -31,6 +31,7 @@ Options:
   -f, --file <filename>      Filename where the data is being collected (default: "./pir8grabber.json")
   -l, --lines <number>       Amount of lines inside the file (default: 10)
   -n, --node <url>           Your custom node. Otherwise the node is selected automatically
+  -y, --payment <min:max>    
   -h, --help                 display help for command
 ```
 

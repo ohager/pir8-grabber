@@ -10,7 +10,8 @@
   },
   "description": "Transaction grabber for the Signum Network",
   "bin": {
-    "pir8grabber": "./cli.js"
+    "pir8grab": "./grab.js",
+    "pir8pay": "./pay.js.js"
   },
   "main": "./src/index.js",
   "scripts": {
@@ -18,18 +19,27 @@
     "format:fix": "standard --fix",
     "start": "node ./src/index.js"
   },
-  "keywords": ["signum", "blockchain", "signa", "signum network"],
+  "keywords": [
+    "signum",
+    "blockchain",
+    "signa",
+    "signum network"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@signumjs/core": "^1.0.0-rc.4",
-    "@signumjs/crypto": "^1.0.0-rc.4",
-    "@signumjs/util": "^1.0.0-rc.4",
-    "commander": "^8.1.0",
+    "@signumjs/core": "^1.0.0-rc.8",
+    "@signumjs/crypto": "^1.0.0-rc.8",
+    "@signumjs/util": "^1.0.0-rc.8",
+    "commander": "^8.3.0",
     "fs-extra": "^10.0.0"
   },
   "devDependencies": {
-    "husky": "^7.0.1",
-    "standard": "^16.0.3"
+    "@types/node": "^16.11.11",
+    "husky": "^7.0.4",
+    "prisma": "^3.6.0",
+    "standard": "^16.0.4",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
   }
 }
