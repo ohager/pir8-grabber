@@ -16,11 +16,13 @@ model Parameter {
     account         String
     minPayout       Int     // SIGNA
     maxPayout       Int     // SIGNA
-    message         String  // REGEX
+    messagePattern  String  // REGEX
+    minAmount       Int // SIGNA
     txLimit         Int?
 }
 
 enum PlayStatus{
+    Waiting
     Won
     Lost
 }
@@ -31,7 +33,7 @@ model Transaction {
     sender          String
     amount          Int         // SIGNA
     message         String
-    playStatus      PlayStatus
+    playStatus      PlayStatus @default(Waiting)
     payment         Payment?
 }
 
