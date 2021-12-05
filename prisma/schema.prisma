@@ -21,20 +21,19 @@ model Parameter {
     txLimit         Int?
 }
 
-enum PlayStatus{
-    Waiting
-    Won
-    Lost
+enum PaymentEligibility {
+    Eligible
+    NotEligible
 }
 
 model Transaction {
-    id              Int @id @default(autoincrement())
-    transactionId   String @unique
-    sender          String
-    amount          Int         // SIGNA
-    message         String
-    playStatus      PlayStatus @default(Waiting)
-    payment         Payment?
+    id                  Int @id @default(autoincrement())
+    transactionId       String @unique
+    sender              String
+    amount              Int         // SIGNA
+    message             String
+    paymentEligibility  PaymentEligibility?
+    payment             Payment?
 }
 
 enum PaymentStatus {
