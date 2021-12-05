@@ -50,5 +50,6 @@ model Payment {
     receiver        String
     amount          Int             // SIGNA
     message         String?
+    encryptMessage  Boolean @default(true)
     status          PaymentStatus @default(Pending)
 }
