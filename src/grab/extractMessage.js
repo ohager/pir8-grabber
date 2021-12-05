@@ -1,4 +1,4 @@
-const { decryptMessage, generateMasterKeys } = require('@signumjs/crypto')
+const { decryptMessage } = require('@signumjs/crypto')
 
 function extractMessage (transaction, agreementPrivateKey) {
   const { attachment } = transaction

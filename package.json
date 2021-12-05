@@ -17,7 +17,9 @@
   "scripts": {
     "format": "standard",
     "format:fix": "standard --fix",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "prisma:migrate": "prisma migrate dev --name ",
+    "prisma:generate": "prisma generate"
   },
   "keywords": [
     "signum",
@@ -28,6 +30,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^3.6.0",
     "@signumjs/core": "^1.0.0-rc.8",
     "@signumjs/crypto": "^1.0.0-rc.8",
     "@signumjs/util": "^1.0.0-rc.8",

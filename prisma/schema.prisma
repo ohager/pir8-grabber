@@ -10,20 +10,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Parameters {
+// This is just a configuration table
+model Parameter {
+    id              Int @id @default(1)
     account         String
     minPayout       Int     // SIGNA
     maxPayout       Int     // SIGNA
-    message         String  //
-    txLimit         Int
+    message         String  // REGEX
+    txLimit         Int?
 }
 
-model Transactions {
-    id          Int @id @default(autoincrement())
-    txId        String
-    sender      String
-    amount      Int         // SIGNA
-    message     String
+enum PlayStatus{
+    Won
+    Lost
+}
+
+model Transaction {
+    id              Int @id @default(autoincrement())
+    transactionId   String @unique
+    sender          String
+    amount          Int         // SIGNA
+    message         String
+    playStatus      PlayStatus
+    payment         Payment?
 }
 
 enum PaymentStatus {
@@ -31,11 +40,13 @@ enum PaymentStatus {
     Paid
 }
 
-model Payments {
-    id          Int @id @default(autoincrement())
-    created     DateTime
-    updated     DateTime @updatedAt
-    receiver    String
-    amount      Int             // SIGNA
-    status      PaymentStatus @default(Pending)
+model Payment {
+    id              Int @id @default(autoincrement())
+    transaction     Transaction @relation(fields:[transactionId], references: [transactionId] )
+    transactionId   String @unique
+    created         DateTime
+    updated         DateTime @updatedAt
+    receiver        String
+    amount          Int             // SIGNA
+    status          PaymentStatus @default(Pending)
 }
