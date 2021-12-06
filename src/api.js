@@ -5,7 +5,8 @@ const ReliableNodeList = [
   'https://europe1.signum.network',
   'https://australia.signum.network',
   'https://brazil.signum.network',
-  'https://canada.signum.network'
+  'https://canada.signum.network',
+  'https://localhost:8125'
 ]
 
 async function createApi (nodeHost = '') {

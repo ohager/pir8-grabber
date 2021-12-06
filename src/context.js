@@ -2,10 +2,12 @@ require('dotenv').config()
 const { PrismaClient } = require('@prisma/client')
 const { createApi } = require('./api')
 
-const getContext = async () => (
-  {
+const getContext = async () => {
+  const api = await createApi(process.env.SIGNUM_NODE_HOST || '');
+  console.info('*** Using Signum Node:', api.service.settings.nodeHost)
+  return {
     database: new PrismaClient(),
-    api: await createApi(process.env.SIGNUM_NODE_HOST || ''),
+    api,
     config: {
       outfile: process.env.OUT_FILE_JSON,
       account: process.env.TARGET_ACCOUNT,
@@ -17,7 +19,7 @@ const getContext = async () => (
       }
     }
   }
-)
+}
 
 module.exports = {
   getContext

@@ -1,4 +1,4 @@
-const main = async (opts) => {
+const main = async (context) => {
   console.info('Pay')
 }
 module.exports = {

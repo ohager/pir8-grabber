@@ -1,6 +1,6 @@
 {
   "name": "signum-pir8-grabber",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "engines": {
     "node": "14"
   },
@@ -10,8 +10,7 @@
   },
   "description": "Transaction grabber for the Signum Network",
   "bin": {
-    "pir8grab": "./grab.js",
-    "pir8pay": "./pay.js.js"
+    "pir8-grabber": "./grab.js"
   },
   "main": "./src/index.js",
   "scripts": {

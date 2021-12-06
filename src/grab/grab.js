@@ -5,7 +5,6 @@ const { generateMasterKeys } = require('@signumjs/crypto')
 
 async function fetchTransactions (context) {
   const { api, config } = context
-  console.log(context)
   const monitoredAddress = Address.create(config.account)
   const { transactions } = await api.account.getAccountTransactions({
     accountId: monitoredAddress.getNumericId(),
