@@ -3,17 +3,18 @@ const { Amount } = require('@signumjs/util')
 const { extractMessage } = require('./extractMessage')
 const { generateMasterKeys } = require('@signumjs/crypto')
 
-function updateLogFile (opts, transactions) {
-  fs.ensureFileSync(opts.file)
+function updateLogFile (context, transactions) {
+  const { outfile, passphrase, filter, account } = context.config
+  fs.ensureFileSync(outfile)
   let data = {}
   try {
-    data = fs.readJsonSync(opts.file)
+    data = fs.readJsonSync(outfile)
   } catch (e) {
     // no op -- for an empty file!
   }
   let decryptKey = null
-  if (opts.phrase) {
-    const { agreementPrivateKey } = generateMasterKeys(opts.phrase)
+  if (passphrase) {
+    const { agreementPrivateKey } = generateMasterKeys(passphrase)
     decryptKey = agreementPrivateKey
   }
   const mappedTransactions = transactions.map(t => ({
@@ -23,23 +24,20 @@ function updateLogFile (opts, transactions) {
     message: extractMessage(t, decryptKey)
   }))
 
-  const { lines, address, signa, message } = opts
   const previousTransactions = data.transactions || []
   previousTransactions.unshift(...mappedTransactions)
-  const updatedTransactions = previousTransactions.slice(0, lines)
+  const updatedTransactions = previousTransactions.slice(0, filter.maxTransactions)
 
   const updatedData = {
     lastModified: new Date().toISOString(),
     params: {
-      address,
-      lines,
-      signa,
-      message
+      account,
+      ...filter
     },
     transactions: updatedTransactions
   }
 
-  fs.writeJsonSync(opts.file, updatedData)
+  fs.writeJsonSync(outfile, updatedData)
 }
 
 module.exports = {
