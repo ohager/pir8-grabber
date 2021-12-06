@@ -2,55 +2,67 @@ const fs = require('fs-extra')
 const { Amount } = require('@signumjs/util')
 const { extractMessage } = require('./extractMessage')
 const { generateMasterKeys } = require('@signumjs/crypto')
-const { PrismaClient } = require('@prisma/client')
+const { Prisma } = require('@prisma/client')
 
-async function updateDatabase (opts, transactions) {
+const isDatabaseDuplicationError = e =>
+  e instanceof Prisma.PrismaClientKnownRequestError && e.code.startsWith('P2002')
+
+async function updateDatabase (context, transactions) {
+  const { database, config } = context
   let decryptKey = null
-  if (opts.phrase) {
-    const { agreementPrivateKey } = generateMasterKeys(opts.phrase)
+  if (config.passphrase) {
+    const { agreementPrivateKey } = generateMasterKeys(config.passphrase)
     decryptKey = agreementPrivateKey
   }
 
-  const database = new PrismaClient()
+  const data = {
+    account: config.account,
+    minPayout: 0,
+    maxPayout: 0,
+    messagePattern: config.filter.messagePattern,
+    minAmount: config.filter.amount,
+    txLimit: config.filter.maxTransactions
+  }
 
-  await database.parameters.upsert({
+  await database.parameter.upsert({
     where: {
-      id:1
+      id: 1
     },
     create: {
-
+      id: 1,
+      ...data
+    },
+    update: {
+      ...data
     }
   })
 
-  await database.transactions.insertMany({
-    data: transactions.map(t => ({
-      transactionId: t.transaction,
-      sender: t.sender,
-      amount: Amount.fromPlanck(t.amountNQT).getSigna(),
-      message: extractMessage(t, decryptKey)
-    }))
-  })
+  for (const t of transactions) {
+    try {
+      const tx = {
+        transactionId: t.transaction,
+        sender: t.sender,
+        amount: +Amount.fromPlanck(t.amountNQT).getSigna(),
+        message: extractMessage(t, decryptKey)
+      }
 
-
-  const { lines, address, signa, message } = opts
-  const previousTransactions = data.transactions || []
-  previousTransactions.unshift(...mappedTransactions)
-  const updatedTransactions = previousTransactions.slice(0, lines)
-
-  const updatedData = {
-    lastModified: new Date().toISOString(),
-    params: {
-      address,
-      lines,
-      signa,
-      message
-    },
-    transactions: updatedTransactions
+      await database.transaction.upsert({
+        where: {
+          transactionId: t.transaction
+        },
+        create: {
+          ...tx
+        },
+        update: {
+          ...tx
+        }
+      })
+    } catch (e) {
+      console.error('Database update failed', e)
+    }
   }
-
-  fs.writeJsonSync(opts.file, updatedData)
 }
 
 module.exports = {
-  updateLogFile
+  updateDatabase
 }

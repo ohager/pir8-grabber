@@ -14,10 +14,10 @@ datasource db {
 model Parameter {
     id              Int @id @default(1)
     account         String
-    minPayout       Int     // SIGNA
-    maxPayout       Int     // SIGNA
+    minPayout       Float     // SIGNA
+    maxPayout       Float    // SIGNA
     messagePattern  String  // REGEX
-    minAmount       Int // SIGNA
+    minAmount       Float // SIGNA
     txLimit         Int?
 }
 
@@ -30,8 +30,8 @@ model Transaction {
     id                  Int @id @default(autoincrement())
     transactionId       String @unique
     sender              String
-    amount              Int         // SIGNA
-    message             String
+    amount              Float         // SIGNA
+    message             String @db.Text
     paymentEligibility  PaymentEligibility?
     payment             Payment?
 }
@@ -48,8 +48,8 @@ model Payment {
     created         DateTime
     updated         DateTime @updatedAt
     receiver        String
-    amount          Int             // SIGNA
-    message         String?
+    amount          Float             // SIGNA
+    message         String? @db.Text
     encryptMessage  Boolean @default(true)
     status          PaymentStatus @default(Pending)
 }
